@@ -1,0 +1,22 @@
+services:
+  - type: worker
+    name: youtube-alert-bot
+    runtime: python
+    plan: 0.5c-512mb
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    disk:
+      name: youtube-alert-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DISCORD_TOKEN
+        sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false
+      - key: DATABASE_PATH
+        value: /var/data/alerts.sqlite3
+      - key: POLL_SECONDS
+        value: "300"
+      - key: LIVE_SEARCH_SECONDS
+        value: "1800"
